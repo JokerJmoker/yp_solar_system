@@ -98,7 +98,7 @@ class CosmicBody:
 
 class Star(CosmicBody):
     type = 'star'
-
+    
 class Satelite(CosmicBody):
     type = 'planet'
 
