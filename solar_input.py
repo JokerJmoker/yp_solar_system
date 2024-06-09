@@ -1,7 +1,7 @@
 # coding: utf-8
 # license: GPLv3
 
-from solar_objects import Star, Planet
+from solar_objects import *
 
 
 def read_space_objects_data_from_file(input_filename):
@@ -21,75 +21,17 @@ def read_space_objects_data_from_file(input_filename):
             object_type = line.split()[0].lower()
             if object_type == "star": # FIXME: do the same for planet
                 star = Star()
-                parse_star_parameters(line, star)
+                star.parse_cosmic_body_parameters(line)
                 objects.append(star)
             elif object_type == "planet":
-                planet = Planet()
-                parse_planet_parameters(line, planet)
+                planet = Satelite()
+                planet.parse_cosmic_body_parameters(line)
                 objects.append(planet)
             else:
                 print("Unknown space object")
 
     return objects
 
-
-def parse_star_parameters(line, star):
-    """Считывает данные о звезде из строки.
-    
-    Входная строка должна иметь следующий формат:
-    Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-    
-    Здесь (x, y) — координаты планеты, (Vx, Vy) — скорость.
-    Пример строки:
-    Star 50 yellow 1.0 100.0 200.0 0.0 0.0
-    
-    Параметры:
-    **line** — строка с описанием звезды.
-    **star** — объект звезды.
-    """
-
-    line = line.strip()
-    if line and not line.startswith('#'):
-        parts = line.split()
-        if parts[0] != 'Star':
-            raise ValueError("Строка должна начинаться с 'Star'")
-        
-        star.R = int(parts[1])
-        star.color = parts[2]
-        star.m = float(parts[3])
-        star.x = float(parts[4])
-        star.y = float(parts[5])
-        star.Vx = float(parts[6])
-        star.Vy = float(parts[7])
-
-def parse_planet_parameters(line, planet):
-    """Считывает данные о планете из строки.
-    
-    Входная строка должна иметь следующий формат:
-    Planet <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-    
-    Здесь (x, y) — координаты планеты, (Vx, Vy) — скорость.
-    Пример строки:
-    Planet 10 red 1000 1 2 3 4
-    
-    Параметры:
-    **line** — строка с описанием планеты.
-    **planet** — объект планеты.
-    """
-
-    line = line.strip()
-    if line and not line.startswith('#'):
-        parts = line.split()
-        if parts[0] != 'Planet':
-            raise ValueError("Строка должна начинаться с 'Planet'")
-        
-        planet.R = int(parts[1])
-        planet.color = parts[2]
-        planet.m = float(parts[3])
-        planet.x = float(parts[4])
-        planet.y = float(parts[5])
-        planet.Vx = float(parts[6])
-        planet.Vy = float(parts[7])
 
 def write_space_objects_data_to_file(output_filename, space_objects):
     """Сохраняет данные о космических объектах в файл.
@@ -104,10 +46,10 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     """
     with open(output_filename, 'w', encoding='utf-8') as out_file:
         for obj in space_objects:
-            if isinstance(obj, Star):
-                out_file.write(f"Star {obj.R} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}\n")
-            elif isinstance(obj, Planet):
+            if isinstance(obj, Satelite):
                 out_file.write(f"Planet {obj.R} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}\n")
+            elif isinstance(obj, Star):
+                out_file.write(f"Star {obj.R} {obj.color} {obj.m} {obj.x} {obj.y}\n")
 
 # FIXME: хорошо бы ещё сделать функцию, сохраняющую статистику в заданный файл...
 

@@ -2,81 +2,103 @@
 # license: GPLv3
 
 
-class Star:
+class CosmicBody:
     """Тип данных, описывающий звезду.
     Содержит массу, координаты, скорость звезды,
     а также визуальный радиус звезды в пикселах и её цвет.
     """
-
-    type = "star"
+    
+    type : str
     """Признак объекта звезды"""
-
-    m = 0
-    """Масса звезды"""
-
-    x = 0
-    """Координата по оси **x**"""
-
-    y = 0
-    """Координата по оси **y**"""
-
-    Vx = 0
-    """Скорость по оси **x**"""
-
-    Vy = 0
-    """Скорость по оси **y**"""
-
-    Fx = 0
-    """Сила по оси **x**"""
-
-    Fy = 0
-    """Сила по оси **y**"""
-
-    R = 5
+    R : int
     """Радиус звезды"""
-
-    color = "red"
+    color : str
     """Цвет звезды"""
-
+    m : float
+    """Масса звезды"""
+    x : float
+    """Координата по оси **x**"""
+    y : float
+    """Координата по оси **y**"""
+    Vx : float
+    """Скорость по оси **x**"""
+    Vy : float
+    """Скорость по оси **y**"""
+    Fx : float
+    """Сила по оси **x**"""
+    Fy : float
+    """Сила по оси **y**"""
     image = None
     """Изображение звезды"""
 
 
-class Planet:
-    """Тип данных, описывающий планету.
-    Содержит массу, координаты, скорость планеты,
-    а также визуальный радиус планеты в пикселах и её цвет
-    """
+    def parse_cosmic_body_parameters(self, line):
+        """Считывает данные о звезде из строки.
+        
+        Входная строка должна иметь следующий формат:
+        Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
+        
+        Здесь (x, y) — координаты планеты, (Vx, Vy) — скорость.
+        Пример строки:
+        Star 50 yellow 1.0 100.0 200.0 0.0 0.0
+        
+        Параметры:
+        **line** — строка с описанием звезды.
+        **star** — объект звезды.
+        """
 
-    type = "planet"
-    """Признак объекта планеты"""
+        line = line.strip()
+        if line and not line.startswith('#'):
+            parts = line.split()
+            
+            self.R = int(parts[1])
+            self.color = parts[2]
+            self.m = float(parts[3])
+            self.x = float(parts[4])
+            self.y = float(parts[5])
+            self.Vx = float(parts[6])
+            self.Vy = float(parts[7])
 
-    m = 0
-    """Масса планеты"""
+    def calculate_cosmic_body_force(self, space_objects, G):
+        import math
+        """Вычисляет силу, действующую на тело.
 
-    x = 0
-    """Координата по оси **x**"""
+        Параметры:
 
-    y = 0
-    """Координата по оси **y**"""
+        **body** — тело, для которого нужно вычислить дейстующую силу.
+        **space_objects** — список объектов, которые воздействуют на тело.
+        """
 
-    Vx = 0
-    """Скорость по оси **x**"""
+        self.Fx = self.Fy = 0
+        for obj in space_objects:
+            if self == obj:
+                continue  # тело не действует гравитационной силой на само себя!
+            r = ((self.x - obj.x)**2 + (self.y - obj.y)**2)**0.5
+            F = G*((self.m*obj.m)/r**2)  # FIXME: нужно вывести формулу...
+            alpha = math.atan2(obj.y - self.y, obj.x - self.x)
+            self.Fx += F * math.cos(alpha)
+            self.Fy += F * math.sin(alpha)
 
-    Vy = 0
-    """Скорость по оси **y**"""
+    def move_cosmic_body(self, dt):
+        """Перемещает тело в соответствии с действующей на него силой.
 
-    Fx = 0
-    """Сила по оси **x**"""
+        Параметры:
 
-    Fy = 0
-    """Сила по оси **y**"""
+        **body** — тело, которое нужно переместить.
+        """
 
-    R = 5
-    """Радиус планеты"""
+        ax = self.Fx/self.m
+        self.Vx += ax*dt # учтена v0 при +=
+        self.x += self.Vx*dt + (ax*dt**2)/2 # учтено x0 при +=
+        # FIXME: not done recalculation of y coordinate!
+        ay = self.Fy/self.m
+        self.Vy += ay*dt
+        self.y += self.Vy*dt + (ay*dt**2)/2 
+        
 
-    color = "green"
-    """Цвет планеты"""
+class Star(CosmicBody):
+    type = 'star'
 
-    image = None
-    """Изображение планеты"""
+class Satelite(CosmicBody):
+    type = 'planet'
+
