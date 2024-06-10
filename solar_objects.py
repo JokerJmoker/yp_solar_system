@@ -20,10 +20,7 @@ class CosmicBody:
     """Координата по оси **x**"""
     y : float
     """Координата по оси **y**"""
-    Vx : float
-    """Скорость по оси **x**"""
-    Vy : float
-    """Скорость по оси **y**"""
+
     Fx : float
     """Сила по оси **x**"""
     Fy : float
@@ -56,9 +53,7 @@ class CosmicBody:
             self.m = float(parts[3])
             self.x = float(parts[4])
             self.y = float(parts[5])
-            self.Vx = float(parts[6])
-            self.Vy = float(parts[7])
-
+        
     def calculate_cosmic_body_force(self, space_objects, G):
         import math
         """Вычисляет силу, действующую на тело.
@@ -79,7 +74,34 @@ class CosmicBody:
             self.Fx += F * math.cos(alpha)
             self.Fy += F * math.sin(alpha)
 
-    def move_cosmic_body(self, dt):
+
+class Star(CosmicBody):
+    type = 'star'
+
+    def parse_star_parameters(self, line):
+        super().parse_cosmic_body_parameters(line)
+    
+class Satelite(CosmicBody):
+    type = 'planet'
+
+    Vx : float
+    """Скорость по оси **x**"""
+    Vy : float
+    """Скорость по оси **y**"""
+
+
+    def parse_planet_parameters(self, line):
+        super().parse_cosmic_body_parameters(line)
+
+        line = line.strip()
+        if line and not line.startswith('#'):
+            parts = line.split()
+            
+            self.Vx = float(parts[6])
+            self.Vy = float(parts[7])
+
+    
+    def move_planet(self, dt):
         """Перемещает тело в соответствии с действующей на него силой.
 
         Параметры:
@@ -94,11 +116,3 @@ class CosmicBody:
         ay = self.Fy/self.m
         self.Vy += ay*dt
         self.y += self.Vy*dt + (ay*dt**2)/2 
-        
-
-class Star(CosmicBody):
-    type = 'star'
-    
-class Satelite(CosmicBody):
-    type = 'planet'
-

@@ -12,7 +12,7 @@ def read_space_objects_data_from_file(input_filename):
 
     **input_filename** — имя входного файла
     """
-
+# норм 
     objects = []
     with open(input_filename, 'r', encoding='utf-8') as input_file:
         for line in input_file:
@@ -21,11 +21,11 @@ def read_space_objects_data_from_file(input_filename):
             object_type = line.split()[0].lower()
             if object_type == "star": # FIXME: do the same for planet
                 star = Star()
-                star.parse_cosmic_body_parameters(line)
+                star.parse_star_parameters(line)
                 objects.append(star)
             elif object_type == "planet":
                 planet = Satelite()
-                planet.parse_cosmic_body_parameters(line)
+                planet.parse_planet_parameters(line)
                 objects.append(planet)
             else:
                 print("Unknown space object")
