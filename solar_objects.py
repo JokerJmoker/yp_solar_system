@@ -55,27 +55,6 @@ class CosmicBody:
             self.y = float(parts[5])
 
 
-    def calculate_cosmic_body_force(self, space_objects, G):
-        import math
-        """Вычисляет силу, действующую на тело.
-
-        Параметры:
-
-        **body** — тело, для которого нужно вычислить дейстующую силу.
-        **space_objects** — список объектов, которые воздействуют на тело.
-        """
-
-        self.Fx = self.Fy = 0
-        for obj in space_objects:
-            if self == obj:
-                continue  # тело не действует гравитационной силой на само себя!
-            r = ((self.x - obj.x)**2 + (self.y - obj.y)**2)**0.5
-            F = G*((self.m*obj.m)/r**2)  # FIXME: нужно вывести формулу...
-            alpha = math.atan2(obj.y - self.y, obj.x - self.x)
-            self.Fx += F * math.cos(alpha)
-            self.Fy += F * math.sin(alpha)
-
-
     @staticmethod
     def create_cosmic_body_image(space,obj,scale_x,scale_y):
         """Создаёт отображаемый объект звезды.
@@ -122,18 +101,38 @@ class Satelite(CosmicBody):
             self.Vy = float(parts[7])
 
     
-    def move_planet(self, dt):
-        """Перемещает тело в соответствии с действующей на него силой.
+    def define_tangential_velocity(self):
+        """Вычисляет тангенциальную скорость планеты.
+
+        Возвращает:
+        - tangential_velocity: Тангенциальная скорость планеты.
+        """
+        tangential_velocity = (self.Vx**2 + self.Vy**2)**0.5
+        return tangential_velocity
+
+    def rotate_around(self, center_body, dt):
+        import math
+        """Вращает тело вокруг другого тела.
 
         Параметры:
-
-        **body** — тело, которое нужно переместить.
+        - center_body: Тело, вокруг которого нужно вращаться.
+        - dt: Временной шаг.
         """
+        tangential_velocity = self.define_tangential_velocity()
         
-        ax = self.Fx/self.m
-        self.Vx += ax*dt # учтена v0 при +=
-        self.x += self.Vx*dt + (ax*dt**2)/2 # учтено x0 при +=
-        # FIXME: not done recalculation of y coordinate!
-        ay = self.Fy/self.m
-        self.Vy += ay*dt
-        self.y += self.Vy*dt + (ay*dt**2)/2 
+        # Расстояние между телами
+        radius = ((self.x - center_body.x)**2 + (self.y - center_body.y)**2)**0.5
+        
+        # Угловая скорость
+        angular_velocity = tangential_velocity / radius
+        
+        # Угол изменения
+        angle_change = angular_velocity * dt
+        
+        # Пересчет координат
+        new_x = (self.x - center_body.x) * math.cos(angle_change) - (self.y - center_body.y) * math.sin(angle_change) + center_body.x
+        new_y = (self.x - center_body.x) * math.sin(angle_change) + (self.y - center_body.y) * math.cos(angle_change) + center_body.y
+        
+        # Установка новых координат
+        self.x = new_x
+        self.y = new_y

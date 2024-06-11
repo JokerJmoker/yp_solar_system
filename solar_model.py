@@ -11,16 +11,15 @@ def recalculate_space_objects_positions(space_objects, dt):
 
     Параметры:
 
-    **space_objects** — список оьъектов, для которых нужно пересчитать координаты.
+    **space_objects** — список объектов, для которых нужно пересчитать координаты.
     **dt** — шаг по времени
     """
 
-    for body in space_objects:
-        Star.calculate_cosmic_body_force(body, space_objects, G)
-        Satelite.calculate_cosmic_body_force(body, space_objects, G)
-    for body in space_objects:
-        if isinstance(body, Satelite):
-            Satelite.move_planet(body, dt)
+    for center_body in space_objects:
+        if isinstance(center_body, Star):
+            for satellite_body in space_objects:
+                if isinstance(satellite_body, Satelite):
+                    satellite_body.rotate_around(center_body, dt)
 
 
 if __name__ == "__main__":
