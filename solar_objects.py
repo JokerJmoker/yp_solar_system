@@ -53,7 +53,8 @@ class CosmicBody:
             self.m = float(parts[3])
             self.x = float(parts[4])
             self.y = float(parts[5])
-        
+
+
     def calculate_cosmic_body_force(self, space_objects, G):
         import math
         """Вычисляет силу, действующую на тело.
@@ -75,13 +76,33 @@ class CosmicBody:
             self.Fy += F * math.sin(alpha)
 
 
+    @staticmethod
+    def create_cosmic_body_image(space,obj,scale_x,scale_y):
+        """Создаёт отображаемый объект звезды.
+
+        Параметры:
+
+        **space** — холст для рисования.
+        **star** — объект звезды.
+        """
+
+        x = scale_x(obj.x)
+        y = scale_y(obj.y)
+        r = obj.R
+        obj.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=obj.color)
+
+
 class Star(CosmicBody):
+    
     type = 'star'
+
 
     def parse_star_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
-    
+
+
 class Satelite(CosmicBody):
+
     type = 'planet'
 
     Vx : float
@@ -108,7 +129,7 @@ class Satelite(CosmicBody):
 
         **body** — тело, которое нужно переместить.
         """
-
+        
         ax = self.Fx/self.m
         self.Vx += ax*dt # учтена v0 при +=
         self.x += self.Vx*dt + (ax*dt**2)/2 # учтено x0 при +=

@@ -57,37 +57,6 @@ def scale_y(y):
     return window_height - int(y * scale_factor)
 
 
-def create_star_image(space, star):
-    """Создаёт отображаемый объект звезды.
-
-    Параметры:
-
-    **space** — холст для рисования.
-    **star** — объект звезды.
-    """
-
-    x = scale_x(star.x)
-    y = scale_y(star.y)
-    r = star.R
-    star.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=star.color)
-
-
-def create_planet_image(space, planet):
-    """Создаёт отображаемый объект планеты.
-
-    Параметры:
-
-    **space** — холст для рисования.
-    **planet** — объект планеты.
-    """
-    x = scale_x(planet.x)
-    y = scale_y(planet.y)
-    r = planet.R
-    planet.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=planet.color)
-
-    # FIXME: сделать как у звезды
-
-
 def update_system_name(space, system_name):
     """Создаёт на холсте текст с названием системы небесных тел.
     Если текст уже был, обновляет его содержание.
@@ -115,7 +84,6 @@ def update_object_position(space, body):
         space.coords(body.image, window_width + r, window_height + r,
                      window_width + 2*r, window_height + 2*r)  # положить за пределы окна
     space.coords(body.image, x - r, y - r, x + r, y + r)
-    
         
 
 if __name__ == "__main__":
