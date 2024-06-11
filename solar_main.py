@@ -88,7 +88,7 @@ def open_file_dialog():
         if obj.type == 'star':
             Star.create_cosmic_body_image(space, obj, scale_x, scale_y)
         elif obj.type == 'planet':
-            Satelite.create_cosmic_body_image(space, obj, scale_x, scale_y)
+            Planet.create_cosmic_body_image(space, obj, scale_x, scale_y)
         else:
             raise AssertionError("Unknown cosmic body type")
 
@@ -128,7 +128,7 @@ def main():
     start_button.pack(side=tkinter.LEFT)
 
     time_step = tkinter.DoubleVar()
-    time_step.set(10000)
+    time_step.set(1)
     time_step_entry = tkinter.Entry(frame, textvariable=time_step)
     time_step_entry.pack(side=tkinter.LEFT)
 

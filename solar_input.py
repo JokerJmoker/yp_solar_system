@@ -12,7 +12,7 @@ def read_space_objects_data_from_file(input_filename):
 
     **input_filename** — имя входного файла
     """
-# норм 
+
     objects = []
     with open(input_filename, 'r', encoding='utf-8') as input_file:
         for line in input_file:
@@ -24,7 +24,7 @@ def read_space_objects_data_from_file(input_filename):
                 star.parse_star_parameters(line)
                 objects.append(star)
             elif object_type == "planet":
-                planet = Satelite()
+                planet = Planet()
                 planet.parse_planet_parameters(line)
                 objects.append(planet)
             else:
@@ -46,7 +46,7 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     """
     with open(output_filename, 'w', encoding='utf-8') as out_file:
         for obj in space_objects:
-            if isinstance(obj, Satelite):
+            if isinstance(obj, Planet):
                 out_file.write(f"Planet {obj.R} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}\n")
             elif isinstance(obj, Star):
                 out_file.write(f"Star {obj.R} {obj.color} {obj.m} {obj.x} {obj.y}\n")
