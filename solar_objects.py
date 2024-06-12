@@ -17,6 +17,8 @@ class CosmicBody:
     """Координата по оси **x**"""
     y : float
     """Координата по оси **y**"""
+    ID: int
+    """Идентификатор тела"""
     image = None
     """Изображение звезды"""
 
@@ -44,7 +46,7 @@ class CosmicBody:
             self.color = parts[2]
             self.x = float(parts[3])
             self.y = float(parts[4])
-
+            self.ID = parts[-1]
 
     @staticmethod
     def create_cosmic_body_image(space,obj,scale_x,scale_y):
@@ -65,8 +67,13 @@ class CosmicBody:
 class Star(CosmicBody):    
     type = 'star'
 
+    def __init__(self):
+       super().__init__()
+       self.satellites = []
+    
     def parse_star_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
+
 
 
 class Planet(CosmicBody):

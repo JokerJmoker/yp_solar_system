@@ -18,8 +18,10 @@ def recalculate_space_objects_positions(space_objects, dt):
     for center_body in space_objects:
         if isinstance(center_body, Star):
             for satellite_body in space_objects:
-                if isinstance(satellite_body, Planet):
+                if isinstance(satellite_body, Planet) and center_body.ID == satellite_body.ID:
                     satellite_body.rotate_around(center_body, dt)
+
+
 
 
 if __name__ == "__main__":

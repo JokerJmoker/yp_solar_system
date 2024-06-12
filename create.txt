@@ -1,7 +1,9 @@
 # Солнечная система -- только Солнце и Земля
-Star 30 red 500 400  
+Star 30 red 500 400 1
 
 # Земля
-Planet 5 green  600 400 3
+Planet 5 green  600 400 3 1
 
-Star 30 red 0 400 
+Star 30 red 0 400 2
+
+Planet 5 green  650 400 3 2
