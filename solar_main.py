@@ -2,6 +2,7 @@
 # license: GPLv3
 
 import tkinter
+from tkinter import *
 from tkinter.filedialog import *
 from solar_vis import *
 from solar_model import *
@@ -25,6 +26,59 @@ time_step = None
 space_objects = []
 """Список космических объектов."""
 
+def toggle_orbits():
+    if orbits_button['text'] == "orbits ON":
+        orbits_button['text'] = "orbits OFF"
+    else:
+        orbits_button['text'] = "orbits:on"
+
+def open_data_window():
+    data_window = Toplevel()
+    toplevel_width = 300
+    toplevel_height = 300
+    data_window.geometry(f"{toplevel_width}x{toplevel_height}")
+    data_window.resizable( width=False ,height=False )
+    
+    # Создание текста
+    label_text = Label(data_window, text="Enter cosmic bodie's paramets:")
+    label_text.pack(side=TOP)
+
+    label_type = Label(data_window, text="type:")
+    label_type.place(x=20, y=40)
+
+    label_radius = Label(data_window, text="R:")
+    label_radius.place(x=20, y=70)
+
+    label_color = Label(data_window, text="color:")
+    label_color.place(x=20, y=100)
+
+    label_x = Label(data_window, text="x:")
+    label_x.place(x=20, y=130)
+
+    label_y = Label(data_window, text="y:")
+    label_y.place(x=20, y=160)
+
+    label_V_tg = Label(data_window, text="V_tg:")
+    label_V_tg.place(x=20, y=190)
+
+    # Создание полей ввода и размещение их рядом с соответствующими метками
+    entry_type = Entry(data_window)
+    entry_type.place(x=100, y=50)
+
+    entry_radius = Entry(data_window)
+    entry_radius.place(x=100, y=70)
+
+    entry_color = Entry(data_window)
+    entry_color.place(x=100, y=100)
+
+    entry_x = Entry(data_window)
+    entry_x.place(x=100, y=130)
+
+    entry_y = Entry(data_window)
+    entry_y.place(x=100, y=160)
+
+    entry_V_tg = Entry(data_window)
+    entry_V_tg.place(x=100, y=190)
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
@@ -36,7 +90,7 @@ def execution():
     global displayed_time
     recalculate_space_objects_positions(space_objects, time_step.get())
     for body in space_objects:
-        update_object_position(space, body)
+        update_object_position(space, body)     
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
 
@@ -88,6 +142,8 @@ def open_file_dialog():
         if obj.type == 'star':
             Star.create_cosmic_body_image(space, obj, scale_x, scale_y)
         elif obj.type == 'planet':
+            Planet.create_cosmic_body_image(space, obj, scale_x, scale_y)
+        elif obj.type == 'satelite':
             Satelite.create_cosmic_body_image(space, obj, scale_x, scale_y)
         else:
             raise AssertionError("Unknown cosmic body type")
@@ -112,11 +168,13 @@ def main():
     global time_speed
     global space
     global start_button
+    global orbits_button
 
     print('Modelling started!')
     physical_time = 0
 
     root = tkinter.Tk()
+    root.geometry("+450+50")
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)
@@ -124,11 +182,17 @@ def main():
     frame = tkinter.Frame(root)
     frame.pack(side=tkinter.BOTTOM)
 
+    orbits_button = Button(frame, text="orbits:on", command=toggle_orbits, width=10)
+    orbits_button.pack(side=RIGHT)
+
+    cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command= open_data_window,width=12)
+    cosmic_bodies_data.pack(side=tkinter.LEFT)
+
     start_button = tkinter.Button(frame, text="Start", command=start_execution, width=6)
     start_button.pack(side=tkinter.LEFT)
 
     time_step = tkinter.DoubleVar()
-    time_step.set(10000)
+    time_step.set(1)
     time_step_entry = tkinter.Entry(frame, textvariable=time_step)
     time_step_entry.pack(side=tkinter.LEFT)
 

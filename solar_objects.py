@@ -7,24 +7,18 @@ class CosmicBody:
     Содержит массу, координаты, скорость звезды,
     а также визуальный радиус звезды в пикселах и её цвет.
     """
-    
     type : str
     """Признак объекта звезды"""
     R : int
     """Радиус звезды"""
     color : str
     """Цвет звезды"""
-    m : float
-    """Масса звезды"""
     x : float
     """Координата по оси **x**"""
     y : float
     """Координата по оси **y**"""
-
-    Fx : float
-    """Сила по оси **x**"""
-    Fy : float
-    """Сила по оси **y**"""
+    ID: int
+    """Идентификатор тела"""
     image = None
     """Изображение звезды"""
 
@@ -50,35 +44,13 @@ class CosmicBody:
             
             self.R = int(parts[1])
             self.color = parts[2]
-            self.m = float(parts[3])
-            self.x = float(parts[4])
-            self.y = float(parts[5])
-
-
-    def calculate_cosmic_body_force(self, space_objects, G):
-        import math
-        """Вычисляет силу, действующую на тело.
-
-        Параметры:
-
-        **body** — тело, для которого нужно вычислить дейстующую силу.
-        **space_objects** — список объектов, которые воздействуют на тело.
-        """
-
-        self.Fx = self.Fy = 0
-        for obj in space_objects:
-            if self == obj:
-                continue  # тело не действует гравитационной силой на само себя!
-            r = ((self.x - obj.x)**2 + (self.y - obj.y)**2)**0.5
-            F = G*((self.m*obj.m)/r**2)  # FIXME: нужно вывести формулу...
-            alpha = math.atan2(obj.y - self.y, obj.x - self.x)
-            self.Fx += F * math.cos(alpha)
-            self.Fy += F * math.sin(alpha)
-
+            self.x = float(parts[3])
+            self.y = float(parts[4])
+            self.ID = int(parts[-1])
 
     @staticmethod
     def create_cosmic_body_image(space,obj,scale_x,scale_y):
-        """Создаёт отображаемый объект звезды.
+        """Создаёт отображаемый объект.
 
         Параметры:
 
@@ -92,24 +64,24 @@ class CosmicBody:
         obj.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=obj.color)
 
 
-class Star(CosmicBody):
-    
+class Star(CosmicBody):    
     type = 'star'
 
-
+    def __init__(self):
+       super().__init__()
+       self.satellites = []
+    
     def parse_star_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
 
 
-class Satelite(CosmicBody):
 
+class Planet(CosmicBody):
     type = 'planet'
 
-    Vx : float
-    """Скорость по оси **x**"""
-    Vy : float
-    """Скорость по оси **y**"""
-
+    V_tg : float
+    """Тангенцальная скорсоть"""
+ 
 
     def parse_planet_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
@@ -118,22 +90,45 @@ class Satelite(CosmicBody):
         if line and not line.startswith('#'):
             parts = line.split()
             
-            self.Vx = float(parts[6])
-            self.Vy = float(parts[7])
+            self.V_tg = float(parts[5])
+            
 
-    
-    def move_planet(self, dt):
-        """Перемещает тело в соответствии с действующей на него силой.
+    def rotate_planet_around(self, center_body, dt):
+        import math
+        """Вращает тело вокруг другого тела.
 
         Параметры:
-
-        **body** — тело, которое нужно переместить.
+        - center_body: Тело, вокруг которого нужно вращаться.
+        - dt: Временной шаг.
         """
+        r = ((self.x - center_body.x)**2 + (self.y - center_body.y)**2)**0.5
+        if r == 0:
+            return
+        omega = self.V_tg / r
+        phi = omega * dt
+        new_x = (self.x - center_body.x) * math.cos(phi) - (self.y - center_body.y) * math.sin(phi) + center_body.x
+        new_y = (self.x - center_body.x) * math.sin(phi) + (self.y - center_body.y) * math.cos(phi) + center_body.y
+        self.x = new_x
+        self.y = new_y
+
+class Satelite(Planet):
+    type = 'satelite'
+
+
+    def parse_satelite_parameters(self, line):
+        super().parse_planet_parameters(line)
+    
+      
+    def rotate_satelite_around(self, center_body, dt):
+        import math
+        r = ((self.x - center_body.x)**2 + (self.y - center_body.y)**2)**0.5
+        if r == 0:
+            return
+        V_tg = self.V_tg + center_body.V_tg 
+        omega = (V_tg)/ r
+        phi = omega * dt
+        new_x = (self.x - center_body.x) * math.cos(phi) - (self.y - center_body.y) * math.sin(phi) + center_body.x
+        new_y = (self.x - center_body.x) * math.sin(phi) + (self.y - center_body.y) * math.cos(phi) + center_body.y
+        self.x = new_x
+        self.y = new_y  
         
-        ax = self.Fx/self.m
-        self.Vx += ax*dt # учтена v0 при +=
-        self.x += self.Vx*dt + (ax*dt**2)/2 # учтено x0 при +=
-        # FIXME: not done recalculation of y coordinate!
-        ay = self.Fy/self.m
-        self.Vy += ay*dt
-        self.y += self.Vy*dt + (ay*dt**2)/2 
