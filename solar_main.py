@@ -7,7 +7,7 @@ from tkinter.filedialog import *
 from solar_vis import *
 from solar_model import *
 from solar_input import *
-
+from data_window import *
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
 
@@ -31,54 +31,6 @@ def toggle_orbits():
         orbits_button['text'] = "orbits OFF"
     else:
         orbits_button['text'] = "orbits:on"
-
-def open_data_window():
-    data_window = Toplevel()
-    toplevel_width = 300
-    toplevel_height = 300
-    data_window.geometry(f"{toplevel_width}x{toplevel_height}")
-    data_window.resizable( width=False ,height=False )
-    
-    # Создание текста
-    label_text = Label(data_window, text="Enter cosmic bodie's paramets:")
-    label_text.pack(side=TOP)
-
-    label_type = Label(data_window, text="type:")
-    label_type.place(x=20, y=40)
-
-    label_radius = Label(data_window, text="R:")
-    label_radius.place(x=20, y=70)
-
-    label_color = Label(data_window, text="color:")
-    label_color.place(x=20, y=100)
-
-    label_x = Label(data_window, text="x:")
-    label_x.place(x=20, y=130)
-
-    label_y = Label(data_window, text="y:")
-    label_y.place(x=20, y=160)
-
-    label_V_tg = Label(data_window, text="V_tg:")
-    label_V_tg.place(x=20, y=190)
-
-    # Создание полей ввода и размещение их рядом с соответствующими метками
-    entry_type = Entry(data_window)
-    entry_type.place(x=100, y=50)
-
-    entry_radius = Entry(data_window)
-    entry_radius.place(x=100, y=70)
-
-    entry_color = Entry(data_window)
-    entry_color.place(x=100, y=100)
-
-    entry_x = Entry(data_window)
-    entry_x.place(x=100, y=130)
-
-    entry_y = Entry(data_window)
-    entry_y.place(x=100, y=160)
-
-    entry_V_tg = Entry(data_window)
-    entry_V_tg.place(x=100, y=190)
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
