@@ -29,9 +29,5 @@ def recalculate_space_objects_positions(space_objects, dt):
                             satelite_body.rotate_satelite_around(planet_body, dt)
 
 
-
-
-
-
 if __name__ == "__main__":
     print("This module is not for direct call!")
