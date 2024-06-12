@@ -36,7 +36,7 @@ def execution():
     global displayed_time
     recalculate_space_objects_positions(space_objects, time_step.get())
     for body in space_objects:
-        update_object_position(space, body)
+        update_object_position(space, body)     
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
 
@@ -119,6 +119,7 @@ def main():
     physical_time = 0
 
     root = tkinter.Tk()
+    root.geometry("+450+50")
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)

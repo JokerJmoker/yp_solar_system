@@ -114,12 +114,10 @@ class Planet(CosmicBody):
 class Satelite(Planet):
     type = 'satelite'
 
+
     def parse_satelite_parameters(self, line):
         super().parse_planet_parameters(line)
     
-#    def rotate_satelite_around(self, center_body, dt):
-#        super().rotate_planet_around(center_body, dt)
-
       
     def rotate_satelite_around(self, center_body, dt):
         import math
@@ -134,4 +132,3 @@ class Satelite(Planet):
         self.x = new_x
         self.y = new_y  
         
-    
