@@ -46,7 +46,7 @@ class CosmicBody:
             self.color = parts[2]
             self.x = float(parts[3])
             self.y = float(parts[4])
-            self.ID = parts[-1]
+            self.ID = int(parts[-1])
 
     @staticmethod
     def create_cosmic_body_image(space,obj,scale_x,scale_y):
@@ -93,7 +93,7 @@ class Planet(CosmicBody):
             self.V_tg = float(parts[5])
             
 
-    def rotate_around(self, center_body, dt):
+    def rotate_planet_around(self, center_body, dt):
         import math
         """Вращает тело вокруг другого тела.
 
@@ -102,9 +102,36 @@ class Planet(CosmicBody):
         - dt: Временной шаг.
         """
         r = ((self.x - center_body.x)**2 + (self.y - center_body.y)**2)**0.5
+        if r == 0:
+            return
         omega = self.V_tg / r
         phi = omega * dt
         new_x = (self.x - center_body.x) * math.cos(phi) - (self.y - center_body.y) * math.sin(phi) + center_body.x
         new_y = (self.x - center_body.x) * math.sin(phi) + (self.y - center_body.y) * math.cos(phi) + center_body.y
         self.x = new_x
         self.y = new_y
+
+class Satelite(Planet):
+    type = 'satelite'
+
+    def parse_satelite_parameters(self, line):
+        super().parse_planet_parameters(line)
+    
+#    def rotate_satelite_around(self, center_body, dt):
+#        super().rotate_planet_around(center_body, dt)
+
+      
+    def rotate_satelite_around(self, center_body, dt):
+        import math
+        r = ((self.x - center_body.x)**2 + (self.y - center_body.y)**2)**0.5
+        if r == 0:
+            return
+        V_tg = self.V_tg + center_body.V_tg 
+        omega = (V_tg)/ r
+        phi = omega * dt
+        new_x = (self.x - center_body.x) * math.cos(phi) - (self.y - center_body.y) * math.sin(phi) + center_body.x
+        new_y = (self.x - center_body.x) * math.sin(phi) + (self.y - center_body.y) * math.cos(phi) + center_body.y
+        self.x = new_x
+        self.y = new_y  
+        
+    

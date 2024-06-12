@@ -89,6 +89,8 @@ def open_file_dialog():
             Star.create_cosmic_body_image(space, obj, scale_x, scale_y)
         elif obj.type == 'planet':
             Planet.create_cosmic_body_image(space, obj, scale_x, scale_y)
+        elif obj.type == 'satelite':
+            Satelite.create_cosmic_body_image(space, obj, scale_x, scale_y)
         else:
             raise AssertionError("Unknown cosmic body type")
 

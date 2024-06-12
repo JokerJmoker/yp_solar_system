@@ -13,13 +13,22 @@ def recalculate_space_objects_positions(space_objects, dt):
 
     **space_objects** — список объектов, для которых нужно пересчитать координаты.
     **dt** — шаг по времени
+    
+    star_body - это centre_body, вокруг готорого вращается planet и т.д
     """
 
-    for center_body in space_objects:
-        if isinstance(center_body, Star):
-            for satellite_body in space_objects:
-                if isinstance(satellite_body, Planet) and center_body.ID == satellite_body.ID:
-                    satellite_body.rotate_around(center_body, dt)
+    for star_body in space_objects:
+        if isinstance(star_body, Star):
+            star_ID = star_body.ID
+            for planet_body in space_objects:
+                if isinstance(planet_body, Planet) and planet_body.ID /11 == star_ID:
+                    planet_body.rotate_planet_around(star_body, dt)
+                    planet_ID = planet_body.ID
+                    for satelite_body in space_objects:
+                        if isinstance(satelite_body, Satelite) and satelite_body.ID / 11== planet_ID:
+                            satelite_body.rotate_satelite_around(planet_body, dt)
+
+
 
 
 
