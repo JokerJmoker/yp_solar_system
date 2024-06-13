@@ -17,7 +17,7 @@ class CosmicBody:
     """Координата по оси **x**"""
     y : float
     """Координата по оси **y**"""
-    ID: int
+    ID_for_static: int
     """Идентификатор тела"""
     image = None
     """Изображение звезды"""
@@ -45,7 +45,7 @@ class CosmicBody:
             self.color = parts[2]
             self.x = float(parts[3])
             self.y = float(parts[4])
-            self.ID = int(parts[-1])
+            self.ID_for_static = int(parts[-1])
 
 
     @staticmethod
@@ -65,7 +65,8 @@ class CosmicBody:
 
 class Star(CosmicBody):    
     type = 'star'
-    
+
+
     def parse_star_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
 
@@ -76,6 +77,8 @@ class Planet(CosmicBody):
     V_tg : float
     """Тангенцальная скорсоть"""
 
+    ID_for_rotating : int 
+
 
     def parse_planet_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
@@ -85,6 +88,7 @@ class Planet(CosmicBody):
             parts = line.split()
             
             self.V_tg = float(parts[5])
+            self.ID_for_rotating = int(parts[-2])
             
 
     def rotate_planet_around(self, center_body, dt):
@@ -158,10 +162,10 @@ class OrbitManager:
         for star_body in space_objects:
             if isinstance(star_body, Star):
                 for planet_body in space_objects:
-                    if isinstance(planet_body, Planet) and planet_body.ID // 11 == star_body.ID:
+                    if isinstance(planet_body, Planet) and planet_body.ID_for_static // 11 == star_body.ID_for_static:
                         self.create_orbit(star_body, planet_body)
                         for satellite_body in space_objects:
-                            if isinstance(satellite_body, Satelite) and satellite_body.ID // 11 == planet_body.ID:
+                            if isinstance(satellite_body, Satelite) and satellite_body.ID_for_static // 11 == planet_body.ID_for_static and satellite_body.ID_for_rotating == planet_body.ID_for_rotating:
                                 self.create_orbit(planet_body, satellite_body)
 
 

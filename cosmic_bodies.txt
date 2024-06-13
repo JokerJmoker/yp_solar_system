@@ -1,4 +1,17 @@
-star 2 red 300 300  1
-star 2 red 300 300  2
-planet 2 yellow 400 300 5 1
-satelite 2 yellow 450 300 5 11
+# First system
+star 20 red -500 400  1
+
+planet 4 yellow -600 400 5 1
+planet 4 yellow -700 400 5 1
+planet 4 yellow -800 400 5 1
+planet 4 yellow -900 400 5 1
+
+planet 4 pink -400 400 5 1
+planet 4 pink -300 400 5 1
+planet 4 pink -200 400 5 1
+planet 4 pink -100 400 5 1
+
+planet 4 cyan -500 500 5 1
+planet 4 cyan -500 600 5 1
+
+satelite 3 orange -950 400 11

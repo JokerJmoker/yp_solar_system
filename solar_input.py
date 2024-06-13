@@ -24,7 +24,7 @@ def read_space_objects_data_from_file(input_filename):
                 continue  # пустые строки и строки-комментарии пропускаем
             parts = line.split()
             object_type = parts[0].lower()
-            ID = int(parts[-1]) * 10  
+            ID_insided = int(parts[-1]) * 10  
             if object_type == "star":
                 star = Star()
                 star.parse_star_parameters(line)
@@ -32,12 +32,12 @@ def read_space_objects_data_from_file(input_filename):
             elif object_type == "planet":
                 planet = Planet()
                 planet.parse_planet_parameters(line)
-                planet.ID += ID  # добавляем вложенность к ID планеты
+                planet.ID_for_static += ID_insided  # добавляем вложенность к ID планеты
                 objects.append(planet)
             elif object_type == "satelite":
                 satelite = Satelite()
                 satelite.parse_satelite_parameters(line)
-                satelite.ID += ID  # добавляем вложенность к ID спутника
+                satelite.ID_for_static += ID_insided  # добавляем вложенность к ID спутника
                 objects.append(satelite)
             else:
                 print("Unknown space object")
