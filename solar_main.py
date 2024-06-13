@@ -26,13 +26,24 @@ time_step = None
 space_objects = []
 """Список космических объектов."""
 
+
 def toggle_orbits():
+    global show_orbits
+
     if orbits_button['text'] == "Show orbits":
         orbits_button['text'] = "Hide orbits "
     else:
         orbits_button['text'] = "Show orbits"
 
-
+    """
+    show_orbits = not show_orbits
+    if show_orbits:
+        orbits_button['text'] = "Show orbits"
+        #create_orbit_images()
+    else:
+        orbits_button['text'] = "Hide orbits"
+        #clear_orbit_images()
+    """
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
     а также обновляя их положение на экране.

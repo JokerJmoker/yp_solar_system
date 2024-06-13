@@ -130,3 +130,43 @@ class Satelite(Planet):
         self.x = new_x
         self.y = new_y  
         
+class Orbit:
+   
+
+    @staticmethod
+    def create_orbit_images(space_objects, space, scale_x, scale_y, scale_factor):
+        """Create orbit path images for planets and satellites around stars."""
+        for obj in space_objects:
+            if isinstance(obj, Planet) or isinstance(obj, Satelite):
+                for star in space_objects:
+                    if isinstance(star, Star):
+                        r = ((obj.x - star.x) ** 2 + (obj.y - star.y) ** 2) ** 0.5
+                        scaled_r = r * scale_factor
+                        center_x = scale_x(star.x)
+                        center_y = scale_y(star.y)
+                        obj.orbit_image = space.create_oval(center_x - scaled_r, center_y - scaled_r,
+                                                            center_x + scaled_r, center_y + scaled_r,
+                                                            outline="white")
+
+    @staticmethod
+    def clear_orbit_images(space_objects, space):
+        """Clear orbit path images from the canvas."""
+        for obj in space_objects:
+            if isinstance(obj, Planet) or isinstance(obj, Satelite):
+                if hasattr(obj, 'orbit_image') and obj.orbit_image:
+                    space.delete(obj.orbit_image)
+                    obj.orbit_image = None
+
+    @staticmethod
+    def update_orbit_positions(space_objects, scale_x, scale_y, scale_factor, space):
+        """Update positions of orbit path images on the canvas."""
+        for obj in space_objects:
+            if isinstance(obj, Planet) or isinstance(obj, Satelite):
+                for star in space_objects:
+                    if isinstance(star, Star):
+                        r = ((obj.x - star.x) ** 2 + (obj.y - star.y) ** 2) ** 0.5
+                        scaled_r = r * scale_factor
+                        center_x = scale_x(star.x)
+                        center_y = scale_y(star.y)
+                        space.coords(obj.orbit_image, center_x - scaled_r, center_y - scaled_r,
+                                    center_x + scaled_r, center_y + scaled_r)
