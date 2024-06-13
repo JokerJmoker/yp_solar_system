@@ -1,15 +1,11 @@
 from tkinter import *
 from solar_main import *
-from solar_objects import *
-from solar_input import *
 from solar_vis import *
-from solar_model import *
+from solar_objects import *
 import os
-
 
 # Путь к файлу в корневой папке проекта
 file_path = os.path.join(os.getcwd(), 'cosmic_bodies.txt')
-
 
 def save_data_to_file():
     type_value = entry_type.get()
@@ -18,21 +14,48 @@ def save_data_to_file():
     x_value = entry_x.get()
     y_value = entry_y.get()
     V_tg_value = entry_V_tg.get()
-    ID_value = entry_ID.get()
-    
-    data_line = f"{type_value} {radius_value} {color_value} {x_value} {y_value} {V_tg_value} {ID_value}\n"
+    ID_for_rotating_value = entry_ID_for_rotating.get()
+    ID_for_static_value = entry_ID_for_static.get()
+
+    data_line = f"{type_value} {radius_value} {color_value} {x_value} {y_value} {V_tg_value} {ID_for_rotating_value} {ID_for_static_value}\n"
 
     with open(file_path, 'a') as file:
         file.write(data_line)
 
-
 def show_uploaded_cosmic_bodies():
-    pass
-#FIXME здесь надо добавить метод (по аналогии с open_file_dialog() , только не с полным набором используемых функций) по отрисовке объектов на холсте space
+    pass 
+    #FIXME "2" NameError: name 'space' is not defined. Did you mean: 'Place'
+    """ 
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    
+    space_objects = []
+    for line in lines:
+        parts = line.strip().split()
+        if len(parts) == 0:
+            continue
+        object_type = parts[0].lower()
+        if object_type == "star":
+            star = Star()
+            star.parse_star_parameters(line)
+            space_objects.append(star)
+        elif object_type == "planet":
+            planet = Planet()
+            planet.parse_planet_parameters(line)
+            space_objects.append(planet)
+        elif object_type == "satelite":
+            satelite = Satelite()
+            satelite.parse_satelite_parameters(line)
+            space_objects.append(satelite)
 
+    orbit_manager = OrbitManager(space, scale_x, scale_y, scale_r)
+    for obj in space_objects:
+        CosmicBody.create_cosmic_body_image(space, obj, scale_x, scale_y)
+    orbit_manager.update_orbit_images(space_objects)
+    """
 
 def open_data_window():
-    global entry_type, entry_radius, entry_color, entry_x , entry_y, entry_V_tg, entry_ID
+    global entry_type, entry_radius, entry_color, entry_x, entry_y, entry_V_tg, entry_ID_for_rotating, entry_ID_for_static
     
     data_window = Toplevel()
     toplevel_width = 300
@@ -44,14 +67,13 @@ def open_data_window():
     label_text.pack(side=TOP)
 
     label_star = Label(data_window, text="Star: type r color x y ID_ST ")
-    label_star.place(x =10, y = 275)
+    label_star.place(x=10, y=275)
     
-    label_star = Label(data_window, text="Planet: type r color x y ID_ROT ID_ST ")
-    label_star.place(x =10, y = 300)
+    label_planet = Label(data_window, text="Planet: type r color x y ID_ROT ID_ST ")
+    label_planet.place(x=10, y=300)
 
-    label_star = Label(data_window, text="Satelite: type r color x y ID_ROTx ID_STx2 ")
-    label_star.place(x =10, y = 325)
-
+    label_satelite = Label(data_window, text="Satelite: type r color x y ID_ROTx ID_STx2 ")
+    label_satelite.place(x=10, y=325)
 
     label_type = Label(data_window, text="Type:")
     label_type.place(x=10, y=40)
@@ -98,7 +120,3 @@ def open_data_window():
 
     show_button = Button(data_window, text="Show", command=show_uploaded_cosmic_bodies)
     show_button.place(x=200, y=355)
-
-
-if __name__ == "__main__":
-    print("This module is not for direct call!")
