@@ -61,11 +61,11 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     with open(output_filename, 'w', encoding='utf-8') as out_file:
         for obj in space_objects:
             if isinstance(obj, Star):
-                out_file.write(f"Star {obj.R} {obj.color} {obj.x} {obj.y} {obj.ID} \n")
+                out_file.write(f"Star {obj.R} {obj.color} {obj.x} {obj.y} {obj.ID_for_static} \n")
             elif isinstance(obj, Planet):
-                out_file.write(f"Planet {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID}\n")
+                out_file.write(f"Planet {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID_for_rotating} {obj.ID_for_static} \n")
             elif isinstance(obj, Satelite):
-                out_file.write(f"Satelite {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID}\n")
+                out_file.write(f"Satelite {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID_for_rotating} {obj.ID_for_static} \n")
 
 
 if __name__ == "__main__":
