@@ -1,3 +1,5 @@
+from solar_main import *
+from solar_main import space_objects 
 from tkinter import *
 import os
 
@@ -31,6 +33,11 @@ def save_data_to_file():
     # Записать данные в файл
     with open(file_path, 'a') as file:
         file.write(data_line)
+
+def show_uploaded_cosmic_bodies(space, body):
+    pass
+    
+
 
 def open_data_window():
     global entry_type, entry_radius, entry_color, entry_x, entry_y, entry_V_tg , entry_ID
@@ -82,8 +89,10 @@ def open_data_window():
     entry_ID.place(x=100, y=220)
 
     # Кнопка для сохранения данных в файл
-    save_button = Button(data_window, text="Save", command=save_data_to_file)
-    save_button.pack(side=BOTTOM)
+    upload_button = Button(data_window, text="upload", command=save_data_to_file)
+    upload_button.pack(side=BOTTOM)
+
+    show_button = Button(data_window, text="show", command=show_uploaded_cosmic_bodies)
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

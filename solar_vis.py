@@ -6,6 +6,7 @@
 Функции, создающие гaрафические объекты и перемещающие их на экране, принимают физические координаты
 """
 
+
 header_font = "Arial-16"
 """Шрифт в заголовке"""
 
@@ -86,7 +87,5 @@ def update_object_position(space, body):
     space.coords(body.image, x - r, y - r, x + r, y + r)
 
     
-
-
 if __name__ == "__main__":
     print("This module is not for direct call!")

@@ -137,7 +137,7 @@ def main():
     orbits_button = Button(frame, text="orbits:on", command=toggle_orbits, width=10)
     orbits_button.pack(side=RIGHT)
 
-    cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command= open_data_window,width=12)
+    cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command=open_data_window,width=12)
     cosmic_bodies_data.pack(side=tkinter.LEFT)
 
     start_button = tkinter.Button(frame, text="Start", command=start_execution, width=6)

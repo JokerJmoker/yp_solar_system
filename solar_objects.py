@@ -21,6 +21,7 @@ class CosmicBody:
     """Идентификатор тела"""
     image = None
     """Изображение звезды"""
+    orbit_image = None
 
 
     def parse_cosmic_body_parameters(self, line):
@@ -111,6 +112,7 @@ class Planet(CosmicBody):
         self.x = new_x
         self.y = new_y
 
+    
 class Satelite(Planet):
     type = 'satelite'
 
