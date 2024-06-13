@@ -8,6 +8,8 @@ from solar_vis import *
 from solar_model import *
 from solar_input import *
 from data_window import *
+from solar_objects import Orbit
+
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
 
@@ -26,24 +28,21 @@ time_step = None
 space_objects = []
 """Список космических объектов."""
 
+show_orbits = False
+
 
 def toggle_orbits():
     global show_orbits
-
+    
     if orbits_button['text'] == "Show orbits":
         orbits_button['text'] = "Hide orbits "
+        show_orbits = True
     else:
         orbits_button['text'] = "Show orbits"
+        show_orbits = False
 
-    """
-    show_orbits = not show_orbits
-    if show_orbits:
-        orbits_button['text'] = "Show orbits"
-        #create_orbit_images()
-    else:
-        orbits_button['text'] = "Hide orbits"
-        #clear_orbit_images()
-    """
+        
+
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
     а также обновляя их положение на экране.
@@ -53,8 +52,12 @@ def execution():
     global physical_time
     global displayed_time
     recalculate_space_objects_positions(space_objects, time_step.get())
+
     for body in space_objects:
-        update_object_position(space, body)     
+        update_object_position(space, body) 
+        if show_orbits:
+            update_orbit_image(space,space_objects)
+        
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
 

@@ -2,9 +2,6 @@
 # license: GPLv3
 
 from solar_objects import *
-G = 6.67408E-11
-"""Гравитационная постоянная Ньютона G"""
-
 
 def recalculate_space_objects_positions(space_objects, dt):
     """Пересчитывает координаты объектов.
@@ -27,7 +24,7 @@ def recalculate_space_objects_positions(space_objects, dt):
                     for satelite_body in space_objects:
                         if isinstance(satelite_body, Satelite) and satelite_body.ID / 11== planet_ID:
                             satelite_body.rotate_satelite_around(planet_body, dt)
-
-
+                            
+                            
 if __name__ == "__main__":
     print("This module is not for direct call!")

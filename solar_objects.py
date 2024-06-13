@@ -21,7 +21,7 @@ class CosmicBody:
     """Идентификатор тела"""
     image = None
     """Изображение звезды"""
-    orbit_image = None
+    
 
 
     def parse_cosmic_body_parameters(self, line):
@@ -72,13 +72,12 @@ class Star(CosmicBody):
         super().parse_cosmic_body_parameters(line)
 
 
-
 class Planet(CosmicBody):
     type = 'planet'
 
     V_tg : float
     """Тангенцальная скорсоть"""
- 
+
 
     def parse_planet_parameters(self, line):
         super().parse_cosmic_body_parameters(line)
@@ -108,6 +107,10 @@ class Planet(CosmicBody):
         self.x = new_x
         self.y = new_y
 
+    def calculate_self_orbit_radius(self, center_body):
+        orbit_r = ((self.x - center_body.x) ** 2 + (self.y - center_body.y) ** 2) ** 0.5
+        return orbit_r
+        
     
 class Satelite(Planet):
     type = 'satelite'
@@ -134,19 +137,16 @@ class Orbit:
    
 
     @staticmethod
-    def create_orbit_images(space_objects, space, scale_x, scale_y, scale_factor):
+    def calculate_orbit_radius(space_objects):
         """Create orbit path images for planets and satellites around stars."""
-        for obj in space_objects:
-            if isinstance(obj, Planet) or isinstance(obj, Satelite):
-                for star in space_objects:
-                    if isinstance(star, Star):
-                        r = ((obj.x - star.x) ** 2 + (obj.y - star.y) ** 2) ** 0.5
-                        scaled_r = r * scale_factor
-                        center_x = scale_x(star.x)
-                        center_y = scale_y(star.y)
-                        obj.orbit_image = space.create_oval(center_x - scaled_r, center_y - scaled_r,
-                                                            center_x + scaled_r, center_y + scaled_r,
-                                                            outline="white")
+        for rotating_bodie in space_objects:
+            if isinstance(rotating_bodie, Planet) or isinstance(rotating_bodie, Satelite):
+                for center_body in space_objects:
+                    if isinstance(center_body, Star):
+                        orbit_r = ((rotating_bodie.x - center_body.x) ** 2 + (rotating_bodie.y - center_body.y) ** 2) ** 0.5
+                        #rotating_bodie.orbit_image = space.create_oval(center_body.x - orbit_r, center_body.y - orbit_r,
+                        #                                    center_body.x + orbit_r, center_body.y + orbit_r,
+                        #                                    outline="white")
 
     @staticmethod
     def clear_orbit_images(space_objects, space):
@@ -158,15 +158,15 @@ class Orbit:
                     obj.orbit_image = None
 
     @staticmethod
-    def update_orbit_positions(space_objects, scale_x, scale_y, scale_factor, space):
+    def update_orbit_positions(space_objects, scale_x, scale_y, scale_r, space):
         """Update positions of orbit path images on the canvas."""
-        for obj in space_objects:
-            if isinstance(obj, Planet) or isinstance(obj, Satelite):
-                for star in space_objects:
-                    if isinstance(star, Star):
-                        r = ((obj.x - star.x) ** 2 + (obj.y - star.y) ** 2) ** 0.5
-                        scaled_r = r * scale_factor
-                        center_x = scale_x(star.x)
-                        center_y = scale_y(star.y)
-                        space.coords(obj.orbit_image, center_x - scaled_r, center_y - scaled_r,
+        for rotating_body in space_objects:
+            if isinstance(rotating_body, Planet) or isinstance(rotating_body, Satelite):
+                for center_body in space_objects:
+                    if isinstance(center_body, Star):
+                        r = ((rotating_body.x - center_body.x) ** 2 + (rotating_body.y - center_body.y) ** 2) ** 0.5
+                        scaled_r = scale_r(r)
+                        center_x = scale_x(center_body.x)
+                        center_y = scale_y(center_body.y)
+                        space.coords(rotating_body.orbit_image, center_x - scaled_r, center_y - scaled_r,
                                     center_x + scaled_r, center_y + scaled_r)
