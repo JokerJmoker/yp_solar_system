@@ -133,40 +133,36 @@ class Satelite(Planet):
         self.x = new_x
         self.y = new_y  
         
-class Orbit:
-   
+class OrbitManager:
+    def __init__(self, space, scale_x, scale_y, scale_r):
+        self.space = space
+        self.scale_x = scale_x
+        self.scale_y = scale_y
+        self.scale_r = scale_r
+        self.orbit_images = []
 
-    @staticmethod
-    def calculate_orbit_radius(space_objects):
-        """Create orbit path images for planets and satellites around stars."""
-        for rotating_bodie in space_objects:
-            if isinstance(rotating_bodie, Planet) or isinstance(rotating_bodie, Satelite):
-                for center_body in space_objects:
-                    if isinstance(center_body, Star):
-                        orbit_r = ((rotating_bodie.x - center_body.x) ** 2 + (rotating_bodie.y - center_body.y) ** 2) ** 0.5
-                        #rotating_bodie.orbit_image = space.create_oval(center_body.x - orbit_r, center_body.y - orbit_r,
-                        #                                    center_body.x + orbit_r, center_body.y + orbit_r,
-                        #                                    outline="white")
+    def create_orbit(self, center_body, orbiting_body, outline_color="white"):
+        scaled_center_x = self.scale_x(center_body.x)
+        scaled_center_y = self.scale_y(center_body.y)
+        scaled_orbit_r = self.scale_r(orbiting_body.calculate_self_orbit_radius(center_body))
+        
+        orbit_image = self.space.create_oval(scaled_center_x - scaled_orbit_r, scaled_center_y - scaled_orbit_r,
+                                             scaled_center_x + scaled_orbit_r, scaled_center_y + scaled_orbit_r,
+                                             outline=outline_color)
+        self.orbit_images.append(orbit_image)
 
-    @staticmethod
-    def clear_orbit_images(space_objects, space):
-        """Clear orbit path images from the canvas."""
-        for obj in space_objects:
-            if isinstance(obj, Planet) or isinstance(obj, Satelite):
-                if hasattr(obj, 'orbit_image') and obj.orbit_image:
-                    space.delete(obj.orbit_image)
-                    obj.orbit_image = None
+    def update_orbit_images(self, space_objects):
+        self.clear_orbit_images()
+        for star_body in space_objects:
+            if isinstance(star_body, Star):
+                for planet_body in space_objects:
+                    if isinstance(planet_body, Planet) and planet_body.ID // 11 == star_body.ID:
+                        self.create_orbit(star_body, planet_body)
+                        for satellite_body in space_objects:
+                            if isinstance(satellite_body, Satelite) and satellite_body.ID // 11 == planet_body.ID:
+                                self.create_orbit(planet_body, satellite_body)
 
-    @staticmethod
-    def update_orbit_positions(space_objects, scale_x, scale_y, scale_r, space):
-        """Update positions of orbit path images on the canvas."""
-        for rotating_body in space_objects:
-            if isinstance(rotating_body, Planet) or isinstance(rotating_body, Satelite):
-                for center_body in space_objects:
-                    if isinstance(center_body, Star):
-                        r = ((rotating_body.x - center_body.x) ** 2 + (rotating_body.y - center_body.y) ** 2) ** 0.5
-                        scaled_r = scale_r(r)
-                        center_x = scale_x(center_body.x)
-                        center_y = scale_y(center_body.y)
-                        space.coords(rotating_body.orbit_image, center_x - scaled_r, center_y - scaled_r,
-                                    center_x + scaled_r, center_y + scaled_r)
+    def clear_orbit_images(self):
+        for image in self.orbit_images:
+            self.space.delete(image)
+        self.orbit_images = []

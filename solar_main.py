@@ -8,7 +8,7 @@ from solar_vis import *
 from solar_model import *
 from solar_input import *
 from data_window import *
-from solar_objects import Orbit
+from solar_objects import OrbitManager
 
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
@@ -30,17 +30,21 @@ space_objects = []
 
 show_orbits = False
 
+orbit_manager = None
+
 
 def toggle_orbits():
     global show_orbits
-    
+
     if orbits_button['text'] == "Show orbits":
-        orbits_button['text'] = "Hide orbits "
+        orbits_button['text'] = "Hide orbits"
         show_orbits = True
+        orbit_manager.update_orbit_images(space_objects)
     else:
         orbits_button['text'] = "Show orbits"
         show_orbits = False
-
+        orbit_manager.clear_orbit_images()
+        
         
 
 def execution():
@@ -55,8 +59,9 @@ def execution():
 
     for body in space_objects:
         update_object_position(space, body) 
+        
         if show_orbits:
-            update_orbit_image(space,space_objects)
+            orbit_manager.update_orbit_images(space_objects)
         
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
@@ -136,7 +141,7 @@ def main():
     global space
     global start_button
     global orbits_button
-
+    global orbit_manager
     print('Modelling started!')
     physical_time = 0
 
@@ -145,6 +150,8 @@ def main():
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)
+    # управление орбитами
+    orbit_manager = OrbitManager(space, scale_x, scale_y, scale_r)
     # нижняя панель с кнопками
     frame = tkinter.Frame(root)
     frame.pack(side=tkinter.BOTTOM)
