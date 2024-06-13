@@ -45,7 +45,16 @@ def toggle_orbits():
         show_orbits = False
         orbit_manager.clear_orbit_images()
         
-        
+"""        
+def handle_right_click(event):
+        mouse_x = event.x
+        mouse_y = event.y
+        update_entry_values(mouse_x, mouse_y)
+#FIXME 
+def update_entry_values(x, y):
+    entry_x.set(x)
+    entry_y.set(y)
+"""
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
@@ -142,6 +151,7 @@ def main():
     global start_button
     global orbits_button
     global orbit_manager
+    global entry_x, entry_y
     print('Modelling started!')
     physical_time = 0
 
@@ -150,6 +160,10 @@ def main():
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)
+
+    """
+    space.bind("<Button-3>", handle_right_click) # FIXME 
+    """
     # управление орбитами
     orbit_manager = OrbitManager(space, scale_x, scale_y, scale_r)
     # нижняя панель с кнопками
@@ -159,7 +173,7 @@ def main():
     orbits_button = Button(frame, text="Show orbits", command=toggle_orbits, width=10)
     orbits_button.pack(side=RIGHT)
 
-    cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command=open_data_window,width=12)
+    cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command = open_data_window ,width=12)
     cosmic_bodies_data.pack(side=tkinter.LEFT)
 
     start_button = tkinter.Button(frame, text="Start", command=start_execution, width=6)
