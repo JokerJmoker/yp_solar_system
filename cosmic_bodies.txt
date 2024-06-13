@@ -1,2 +1,4 @@
 star 2 red 300 300  1
 star 2 red 300 300  2
+planet 2 yellow 400 300 5 1
+satelite 2 yellow 450 300 5 11

@@ -59,16 +59,13 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     """
     with open(output_filename, 'w', encoding='utf-8') as out_file:
         for obj in space_objects:
-            if isinstance(obj, Planet):
-                out_file.write(f"Planet {obj.R} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}\n")
-            elif isinstance(obj, Star):
-                out_file.write(f"Star {obj.R} {obj.color} {obj.m} {obj.x} {obj.y}\n")
-            elif obj.type == "satelite":
+            if isinstance(obj, Star):
+                out_file.write(f"Star {obj.R} {obj.color} {obj.x} {obj.y} {obj.ID} \n")
+            elif isinstance(obj, Planet):
+                out_file.write(f"Planet {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID}\n")
+            elif isinstance(obj, Satelite):
                 out_file.write(f"Satelite {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID}\n")
 # FIXME: хорошо бы ещё сделать функцию, сохраняющую статистику в заданный файл...
-
-
-
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
