@@ -67,10 +67,6 @@ class CosmicBody:
 
 class Star(CosmicBody):    
     type = 'star'
-
-    def __init__(self):
-       super().__init__()
-       self.satellites = []
     
     def parse_star_parameters(self, line):
         super().parse_cosmic_body_parameters(line)

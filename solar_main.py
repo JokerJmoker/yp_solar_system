@@ -27,10 +27,11 @@ space_objects = []
 """Список космических объектов."""
 
 def toggle_orbits():
-    if orbits_button['text'] == "orbits ON":
-        orbits_button['text'] = "orbits OFF"
+    if orbits_button['text'] == "Show orbits":
+        orbits_button['text'] = "Hide orbits "
     else:
-        orbits_button['text'] = "orbits:on"
+        orbits_button['text'] = "Show orbits"
+
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
@@ -134,7 +135,7 @@ def main():
     frame = tkinter.Frame(root)
     frame.pack(side=tkinter.BOTTOM)
 
-    orbits_button = Button(frame, text="orbits:on", command=toggle_orbits, width=10)
+    orbits_button = Button(frame, text="Show orbits", command=toggle_orbits, width=10)
     orbits_button.pack(side=RIGHT)
 
     cosmic_bodies_data = tkinter.Button(frame, text="parametrs", command=open_data_window,width=12)

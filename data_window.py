@@ -45,7 +45,7 @@ def open_data_window():
     data_window = Toplevel()
     toplevel_width = 300
     toplevel_height = 300
-    data_window.geometry(f"{toplevel_width}x{toplevel_height}")
+    data_window.geometry(f"{toplevel_width}x{toplevel_height}+200+500" )
     data_window.resizable(width=False, height=False)
 
     # Создание текста и размещение его в окне
