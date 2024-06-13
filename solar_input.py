@@ -13,9 +13,11 @@ def read_space_objects_data_from_file(input_filename):
     **input_filename** — имя входного файла
 
     ID сичтается по формуле: self.id += self.id * 10 , только записывать в файле надо по следующему правилу:
-    star : id
-    planet : id
-    satelite : id * 11   
+    star : ID_for_static
+    planet : ID_for_static
+    satelite : ID_for_static * 11   
+
+    касательно ID_for_rotating : оно совпадает для определенных планет и спутников, если это спутник вращается вокруг этой планеты
     """
     objects = []
     with open(input_filename, 'r', encoding='utf-8') as input_file:
@@ -47,9 +49,9 @@ def read_space_objects_data_from_file(input_filename):
 def write_space_objects_data_to_file(output_filename, space_objects):
     """Сохраняет данные о космических объектах в файл.
     Строки должны иметь следующий формат:
-    Star <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID>
-    Planet <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID>
-    Satelite <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID>
+    Star <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_static>
+    Planet <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_rotating> <ID_for_static>
+    Satelite <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_rotating> <ID_for_static>
 
     Параметры:
     
