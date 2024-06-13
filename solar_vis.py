@@ -5,8 +5,6 @@
 Нигде, кроме этого модуля, не используются экранные координаты объектов.
 Функции, создающие гaрафические объекты и перемещающие их на экране, принимают физические координаты
 """
-
-
 header_font = "Arial-16"
 """Шрифт в заголовке"""
 
@@ -29,9 +27,9 @@ def calculate_scale_factor(max_distance):
     print('Scale factor:', scale_factor)
 
 
-"""Возвращает экранную **y(x)** координату по **y(x)** координате модели.
+"""Возвращает экранную **y или x** координату по **y или x ** координате модели.
     Принимает вещественное число, возвращает целое число.
-    В случае выхода **y(x)** координаты за пределы экрана возвращает
+    В случае выхода **y или x ** координаты за пределы экрана возвращает
     координату, лежащую за пределами холста.
     Направление оси развёрнуто, чтобы у модели ось **y** смотрела вверх.
 
@@ -39,7 +37,6 @@ def calculate_scale_factor(max_distance):
 
     **y** — y-координата модели.
     """
-
 def scale_x(x):
     return int(x*scale_factor) + window_width//2
 
@@ -47,8 +44,10 @@ def scale_x(x):
 def scale_y(y):
     return window_height - int(y * scale_factor)
 
+
 def scale_r(r):
     return r*scale_factor 
+
 
 def update_system_name(space, system_name):
     """Создаёт на холсте текст с названием системы небесных тел.
@@ -79,7 +78,5 @@ def update_object_position(space, body):
     space.coords(body.image, x - r, y - r, x + r, y + r)
     
     
-
-
 if __name__ == "__main__":
     print("This module is not for direct call!")

@@ -13,7 +13,7 @@ def recalculate_space_objects_positions(space_objects, dt):
     
     star_body - это centre_body, вокруг готорого вращается planet и т.д
     """
-
+    
     for star_body in space_objects:
         if isinstance(star_body, Star):
             star_ID = star_body.ID

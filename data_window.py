@@ -20,35 +20,29 @@ def save_data_to_file():
     V_tg_value = entry_V_tg.get()
     ID_value = entry_ID.get()
     
-    # Формирование строки для записи в файл
     data_line = f"{type_value} {radius_value} {color_value} {x_value} {y_value} {V_tg_value} {ID_value}\n"
 
-    # Записать данные в файл
     with open(file_path, 'a') as file:
         file.write(data_line)
 
+
 def show_uploaded_cosmic_bodies():
     pass
-    
-    
+#FIXME здесь надо добавить метод (по аналогии с open_file_dialog() , только не с полным набором используемых функций) по отрисовке объектов на холсте space
+
 
 def open_data_window():
     global entry_type, entry_radius, entry_color, entry_x , entry_y, entry_V_tg, entry_ID
     
-    
-    
-
     data_window = Toplevel()
     toplevel_width = 300
     toplevel_height = 300
     data_window.geometry(f"{toplevel_width}x{toplevel_height}+200+500")
     data_window.resizable(width=False, height=False)
 
-    # Создание текста и размещение его в окне
     label_text = Label(data_window, text="Enter cosmic body's parameters:")
     label_text.pack(side=TOP)
 
-    # Создание меток и полей ввода
     label_type = Label(data_window, text="Type:")
     label_type.place(x=20, y=40)
     entry_type = Entry(data_window)
@@ -84,14 +78,11 @@ def open_data_window():
     entry_ID = Entry(data_window)
     entry_ID.place(x=100, y=220)
 
-    # Кнопка для сохранения данных в файл
     upload_button = Button(data_window, text="Upload", command=save_data_to_file)
     upload_button.place(x=50, y=250)
 
     show_button = Button(data_window, text="Show", command=show_uploaded_cosmic_bodies)
     show_button.place(x=200, y=250)
-
-   
 
 
 if __name__ == "__main__":

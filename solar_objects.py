@@ -23,7 +23,6 @@ class CosmicBody:
     """Изображение звезды"""
     
 
-
     def parse_cosmic_body_parameters(self, line):
         """Считывает данные о звезде из строки.
         
@@ -38,7 +37,6 @@ class CosmicBody:
         **line** — строка с описанием звезды.
         **star** — объект звезды.
         """
-
         line = line.strip()
         if line and not line.startswith('#'):
             parts = line.split()
@@ -49,6 +47,7 @@ class CosmicBody:
             self.y = float(parts[4])
             self.ID = int(parts[-1])
 
+
     @staticmethod
     def create_cosmic_body_image(space,obj,scale_x,scale_y):
         """Создаёт отображаемый объект.
@@ -58,7 +57,6 @@ class CosmicBody:
         **space** — холст для рисования.
         **star** — объект звезды.
         """
-
         x = scale_x(obj.x)
         y = scale_y(obj.y)
         r = obj.R
@@ -107,6 +105,7 @@ class Planet(CosmicBody):
         self.x = new_x
         self.y = new_y
 
+
     def calculate_self_orbit_radius(self, center_body):
         orbit_r = ((self.x - center_body.x) ** 2 + (self.y - center_body.y) ** 2) ** 0.5
         return orbit_r
@@ -132,7 +131,8 @@ class Satelite(Planet):
         new_y = (self.x - center_body.x) * math.sin(phi) + (self.y - center_body.y) * math.cos(phi) + center_body.y
         self.x = new_x
         self.y = new_y  
-        
+
+
 class OrbitManager:
     def __init__(self, space, scale_x, scale_y, scale_r):
         self.space = space
@@ -140,6 +140,7 @@ class OrbitManager:
         self.scale_y = scale_y
         self.scale_r = scale_r
         self.orbit_images = []
+
 
     def create_orbit(self, center_body, orbiting_body, outline_color="white"):
         scaled_center_x = self.scale_x(center_body.x)
@@ -151,6 +152,7 @@ class OrbitManager:
                                              outline=outline_color)
         self.orbit_images.append(orbit_image)
 
+
     def update_orbit_images(self, space_objects):
         self.clear_orbit_images()
         for star_body in space_objects:
@@ -161,6 +163,7 @@ class OrbitManager:
                         for satellite_body in space_objects:
                             if isinstance(satellite_body, Satelite) and satellite_body.ID // 11 == planet_body.ID:
                                 self.create_orbit(planet_body, satellite_body)
+
 
     def clear_orbit_images(self):
         for image in self.orbit_images:

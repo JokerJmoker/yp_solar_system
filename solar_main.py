@@ -29,8 +29,10 @@ space_objects = []
 """Список космических объектов."""
 
 show_orbits = False
+"""Флаг для переключения состояний орбит(show/hide)"""
 
 orbit_manager = None
+"""Создание экземпляра класса OrbitManager для обработки используемых методов """
 
 
 def toggle_orbits():
@@ -44,13 +46,15 @@ def toggle_orbits():
         orbits_button['text'] = "Show orbits"
         show_orbits = False
         orbit_manager.clear_orbit_images()
-        
+
+#FIXME "1" настроить правильную обработку нажатия кнопки мыши и передачи кординат крусора в модуль data_window в качестве значений enter_x и enter_y
 """        
 def handle_right_click(event):
         mouse_x = event.x
         mouse_y = event.y
         update_entry_values(mouse_x, mouse_y)
-#FIXME 
+
+          
 def update_entry_values(x, y):
     entry_x.set(x)
     entry_y.set(y)
@@ -69,7 +73,7 @@ def execution():
     for body in space_objects:
         update_object_position(space, body) 
         
-        if show_orbits:
+        if show_orbits: # остлеживает флаг , относящийся к отображению орбит
             orbit_manager.update_orbit_images(space_objects)
         
     physical_time += time_step.get()
@@ -118,7 +122,6 @@ def open_file_dialog():
     max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
 
-    
     for obj in space_objects:
         if obj.type == 'star':
             Star.create_cosmic_body_image(space, obj, scale_x, scale_y)
@@ -151,7 +154,7 @@ def main():
     global start_button
     global orbits_button
     global orbit_manager
-    global entry_x, entry_y
+    #FIXME "1" global entry_x, entry_y 
     print('Modelling started!')
     physical_time = 0
 
@@ -160,10 +163,9 @@ def main():
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)
-
-    """
-    space.bind("<Button-3>", handle_right_click) # FIXME 
-    """
+    
+    # FIXME "1" space.bind("<Button-3>", handle_right_click) обработчик нажатий 
+    
     # управление орбитами
     orbit_manager = OrbitManager(space, scale_x, scale_y, scale_r)
     # нижняя панель с кнопками
@@ -200,6 +202,7 @@ def main():
 
     root.mainloop()
     print('Modelling finished!')
+
 
 if __name__ == "__main__":
     main()
