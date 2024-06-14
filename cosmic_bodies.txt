@@ -1,0 +1,78 @@
+# First system
+star 7 red -500 400  1
+
+planet 3 yellow -600 400 5 1 1
+planet 3 yellow -700 400 5 0 1
+planet 3 yellow -800 400 5 0 1
+planet 3 yellow -900 400 5 2 1
+
+planet 3 pink -400 400 5 0 1
+planet 3 pink -300 400 5 0 1
+planet 3 pink -200 400 5 0 1
+planet 3 pink -100 400 5 0 1
+
+planet 3 cyan -500 500 5 0 1
+planet 3 cyan -500 600 5 0 1
+
+satelite 2 orange -550 400 -20 1 11
+satelite 2 orange -950 400 -30 2 11
+
+
+# Second system
+star 7 red 500 400  2
+
+planet 3 yellow 600 400 5 3 2
+planet 3 yellow 700 400 5 0 2
+planet 3 yellow 800 400 5 0 2
+planet 3 yellow 900 400 5 4 2
+
+planet 3 pink 400 400 5 0 2
+planet 3 pink 300 400 5 0 2
+planet 3 pink 200 400 5 0 2
+planet 3 pink 100 400 5 0 2
+
+planet 3 cyan 500 500 5 0 2
+planet 3 cyan 500 600 5 0 2
+
+satelite 2 orange 550 400 -20 3 22
+satelite 2 orange 950 400 -30 4 22
+
+# Third system
+star 7 red -500 1600  3
+
+planet 3 yellow -600 1600 5 5 3
+planet 3 yellow -700 1600 5 0 3
+planet 3 yellow -800 1600 5 0 3
+planet 3 yellow -900 1600 5 6 3
+
+planet 3 pink -400 1600 5 0 3
+planet 3 pink -300 1600 5 0 3
+planet 3 pink -200 1600 5 0 3
+planet 3 pink -100 1600 5 0 3
+
+planet 3 cyan -500 1700 5 0 3
+planet 3 cyan -500 1800 5 0 3
+
+satelite 2 orange -550 1600 -20 5 33
+satelite 2 orange -950 1600 -30 6 33
+
+# Third system
+star 7 red 500 1600  4
+
+planet 4 yellow 600 1600 5 7 4
+planet 4 yellow 700 1600 5 0 4
+planet 4 yellow 800 1600 5 0 4
+planet 4 yellow 900 1600 5 8 4
+
+planet 4 pink 400 1600 5 0 4
+planet 4 pink 300 1600 5 0 4
+planet 4 pink 200 1600 5 0 4
+planet 4 pink 100 1600 5 0 4
+
+planet 4 cyan 500 1700 5 0 4
+planet 4 cyan 500 1800 5 0 4
+
+satelite 2 orange 550 1600 -20 7 44
+satelite 2 orange 950 1600 -30 8 44
+
+       

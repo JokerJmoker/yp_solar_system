@@ -1,11 +1,8 @@
-Star 30 red 400 400 2
-Planet 5 green 600 400 3 2
-Satelite 2 white 680 400 7 22
+# объект радиус цвет x y V_tg ID_for_rotating ID_for_static
+star 20 red -500 400  1
 
-Star 30 red 0 400 1
-Planet 5 green 200 400 3 1
-Satelite 2 white 250 400 12 11
+planet 4 yellow -600 400 5 0 1
+planet 4 yellow -700 400 5 1 1
 
-Star 30 red -400 400 3
-Planet 5 green -600 400 3 3
-Satelite 2 white -680 400 19 33
+satelite 3 orange -750 400 10 1 11
+
