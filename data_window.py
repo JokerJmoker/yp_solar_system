@@ -14,10 +14,10 @@ def save_data_to_file():
     x_value = entry_x.get()
     y_value = entry_y.get()
     V_tg_value = entry_V_tg.get()
-    ID_for_rotating_value = entry_ID_for_rotating.get()
-    ID_for_static_value = entry_ID_for_static.get()
+    rotating_body_ID_value = entry_rotating_body_ID.get()
+    static_body_ID_value = entry_static_body_ID.get()
 
-    data_line = f"{type_value} {radius_value} {color_value} {x_value} {y_value} {V_tg_value} {ID_for_rotating_value} {ID_for_static_value}\n"
+    data_line = f"{type_value} {radius_value} {color_value} {x_value} {y_value} {V_tg_value} {rotating_body_ID_value} {static_body_ID_value}\n"
 
     with open(file_path, 'a') as file:
         file.write(data_line)
@@ -55,7 +55,7 @@ def show_uploaded_cosmic_bodies():
     """
 
 def open_data_window():
-    global entry_type, entry_radius, entry_color, entry_x, entry_y, entry_V_tg, entry_ID_for_rotating, entry_ID_for_static
+    global entry_type, entry_radius, entry_color, entry_x, entry_y, entry_V_tg, entry_rotating_body_ID, entry_static_body_ID
     
     data_window = Toplevel()
     toplevel_width = 300
@@ -105,15 +105,15 @@ def open_data_window():
     entry_V_tg = Entry(data_window)
     entry_V_tg.place(x=100, y=190)
 
-    label_ID_for_rotating = Label(data_window, text="ID_ROT:")
-    label_ID_for_rotating.place(x=10, y=220)
-    entry_ID_for_rotating = Entry(data_window)
-    entry_ID_for_rotating.place(x=100, y=220)
+    label_rotating_body_ID = Label(data_window, text="ID_ROT:")
+    label_rotating_body_ID.place(x=10, y=220)
+    entry_rotating_body_ID = Entry(data_window)
+    entry_rotating_body_ID.place(x=100, y=220)
 
-    label_ID_for_static = Label(data_window, text="ID_ST:")
-    label_ID_for_static.place(x=10, y=250)
-    entry_ID_for_static = Entry(data_window)
-    entry_ID_for_static.place(x=100, y=250)
+    label_static_body_ID = Label(data_window, text="ID_ST:")
+    label_static_body_ID.place(x=10, y=250)
+    entry_static_body_ID = Entry(data_window)
+    entry_static_body_ID.place(x=100, y=250)
 
     upload_button = Button(data_window, text="Upload", command=save_data_to_file)
     upload_button.place(x=50, y=355)

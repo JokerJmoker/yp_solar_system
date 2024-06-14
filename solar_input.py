@@ -13,11 +13,11 @@ def read_space_objects_data_from_file(input_filename):
     **input_filename** — имя входного файла
 
     ID сичтается по формуле: self.id += self.id * 10 , только записывать в файле надо по следующему правилу:
-    star : ID_for_static
-    planet : ID_for_static
-    satelite : ID_for_static * 11   
+    star : static_body_ID
+    planet : static_body_ID
+    satelite : static_body_ID * 11   
 
-    касательно ID_for_rotating : оно совпадает для определенных планет и спутников, если это спутник вращается вокруг этой планеты
+    касательно rotating_body_ID : оно совпадает для определенных планет и спутников, если это спутник вращается вокруг этой планеты
     """
     objects = []
     with open(input_filename, 'r', encoding='utf-8') as input_file:
@@ -34,12 +34,12 @@ def read_space_objects_data_from_file(input_filename):
             elif object_type == "planet":
                 planet = Planet()
                 planet.parse_planet_parameters(line)
-                planet.ID_for_static += ID_insided  # добавляем вложенность к ID планеты
+                planet.static_body_ID += ID_insided  # добавляем вложенность к ID планеты
                 objects.append(planet)
             elif object_type == "satelite":
                 satelite = Satelite()
                 satelite.parse_satelite_parameters(line)
-                satelite.ID_for_static += ID_insided  # добавляем вложенность к ID спутника
+                satelite.static_body_ID += ID_insided  # добавляем вложенность к ID спутника
                 objects.append(satelite)
             else:
                 print("Unknown space object")
@@ -49,9 +49,9 @@ def read_space_objects_data_from_file(input_filename):
 def write_space_objects_data_to_file(output_filename, space_objects):
     """Сохраняет данные о космических объектах в файл.
     Строки должны иметь следующий формат:
-    Star <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_static>
-    Planet <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_rotating> <ID_for_static>
-    Satelite <радиус в пикселах> <цвет> <x> <y> <V_tg> <ID_for_rotating> <ID_for_static>
+    Star <радиус в пикселах> <цвет> <x> <y> <V_tg> <static_body_ID>
+    Planet <радиус в пикселах> <цвет> <x> <y> <V_tg> <rotating_body_ID> <static_body_ID>
+    Satelite <радиус в пикселах> <цвет> <x> <y> <V_tg> <rotating_body_ID> <static_body_ID>
 
     Параметры:
     
@@ -61,11 +61,11 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     with open(output_filename, 'w', encoding='utf-8') as out_file:
         for obj in space_objects:
             if isinstance(obj, Star):
-                out_file.write(f"Star {obj.R} {obj.color} {obj.x} {obj.y} {obj.ID_for_static} \n")
+                out_file.write(f"Star {obj.R} {obj.color} {obj.x} {obj.y} {obj.static_body_ID} \n")
             elif isinstance(obj, Planet):
-                out_file.write(f"Planet {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID_for_rotating} {obj.ID_for_static} \n")
+                out_file.write(f"Planet {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.rotating_body_ID} {obj.static_body_ID} \n")
             elif isinstance(obj, Satelite):
-                out_file.write(f"Satelite {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.ID_for_rotating} {obj.ID_for_static} \n")
+                out_file.write(f"Satelite {obj.R} {obj.color} {obj.x} {obj.y} {obj.V_tg} {obj.rotating_body_ID} {obj.static_body_ID} \n")
 
 
 if __name__ == "__main__":

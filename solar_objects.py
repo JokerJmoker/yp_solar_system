@@ -17,7 +17,7 @@ class CosmicBody:
     """Координата по оси **x**"""
     y : float
     """Координата по оси **y**"""
-    ID_for_static: int
+    static_body_ID: int
     """Идентификатор тела"""
     image = None
     """Изображение звезды"""
@@ -45,7 +45,7 @@ class CosmicBody:
             self.color = parts[2]
             self.x = float(parts[3])
             self.y = float(parts[4])
-            self.ID_for_static = int(parts[-1])
+            self.static_body_ID = int(parts[-1])
 
 
     @staticmethod
@@ -77,7 +77,7 @@ class Planet(CosmicBody):
     V_tg : float
     """Тангенцальная скорсоть"""
 
-    ID_for_rotating : int 
+    rotating_body_ID : int 
 
 
     def parse_planet_parameters(self, line):
@@ -88,7 +88,7 @@ class Planet(CosmicBody):
             parts = line.split()
             
             self.V_tg = float(parts[5])
-            self.ID_for_rotating = int(parts[-2])
+            self.rotating_body_ID = int(parts[-2])
             
 
     def rotate_planet_around(self, center_body, dt):
@@ -146,7 +146,7 @@ class OrbitManager:
         self.orbit_images = []
 
 
-    def create_orbit(self, center_body, orbiting_body, outline_color="white"):
+    def __create_orbit(self, center_body, orbiting_body, outline_color="white"):
         scaled_center_x = self.scale_x(center_body.x)
         scaled_center_y = self.scale_y(center_body.y)
         scaled_orbit_r = self.scale_r(orbiting_body.calculate_self_orbit_radius(center_body))
@@ -162,11 +162,11 @@ class OrbitManager:
         for star_body in space_objects:
             if isinstance(star_body, Star):
                 for planet_body in space_objects:
-                    if isinstance(planet_body, Planet) and planet_body.ID_for_static // 11 == star_body.ID_for_static:
-                        self.create_orbit(star_body, planet_body)
+                    if isinstance(planet_body, Planet) and planet_body.static_body_ID // 11 == star_body.static_body_ID:
+                        self.__create_orbit(star_body, planet_body)
                         for satellite_body in space_objects:
-                            if isinstance(satellite_body, Satelite) and satellite_body.ID_for_static // 11 == planet_body.ID_for_static and satellite_body.ID_for_rotating == planet_body.ID_for_rotating:
-                                self.create_orbit(planet_body, satellite_body)
+                            if isinstance(satellite_body, Satelite) and satellite_body.static_body_ID // 11 == planet_body.static_body_ID and satellite_body.rotating_body_ID == planet_body.rotating_body_ID:
+                                self.__create_orbit(planet_body, satellite_body)
 
 
     def clear_orbit_images(self):

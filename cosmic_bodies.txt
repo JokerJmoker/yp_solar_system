@@ -75,3 +75,4 @@ planet 4 cyan 500 1800 5 0 4
 satelite 2 orange 550 1600 -20 7 44
 satelite 2 orange 950 1600 -30 8 44
 
+       

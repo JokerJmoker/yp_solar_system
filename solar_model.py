@@ -16,14 +16,14 @@ def recalculate_space_objects_positions(space_objects, dt):
     
     for star_body in space_objects:
         if isinstance(star_body, Star):
-            star_ID_for_static = star_body.ID_for_static
+            star_ID_for_static = star_body.static_body_ID
             for planet_body in space_objects:
-                if isinstance(planet_body, Planet) and planet_body.ID_for_static /11 == star_ID_for_static:
+                if isinstance(planet_body, Planet) and planet_body.static_body_ID /11 == star_ID_for_static:
                     planet_body.rotate_planet_around(star_body, dt)
-                    planet_ID_for_staic = planet_body.ID_for_static
-                    planet_ID_for_rotating = planet_body.ID_for_rotating
+                    planet_ID_for_staic_body = planet_body.static_body_ID
+                    planet_ID_for_rotating_body = planet_body.rotating_body_ID
                     for satelite_body in space_objects:
-                        if isinstance(satelite_body, Satelite) and satelite_body.ID_for_static / 11 == planet_ID_for_staic and satelite_body.ID_for_rotating == planet_ID_for_rotating:
+                        if isinstance(satelite_body, Satelite) and satelite_body.static_body_ID / 11 == planet_ID_for_staic_body and satelite_body.rotating_body_ID == planet_ID_for_rotating_body:
                             satelite_body.rotate_satelite_around(planet_body, dt)
                             
                             
